@@ -1,0 +1,11 @@
+{
+  "name": "js_expense_tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html --open --port 1234"
+  },
+  "author": "Vita_Babenko",
+  "license": "ISC"
+}
