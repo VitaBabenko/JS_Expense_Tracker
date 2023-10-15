@@ -118,7 +118,57 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"index.js":[function(require,module,exports) {
-
+var totalBalance = document.querySelector(".total_balance");
+var incomeBalance = document.querySelector(".income_balance");
+var expenseBalance = document.querySelector(".expense_balance");
+var list = document.querySelector(".list_history");
+var noList = document.querySelector(".no_list");
+var form = document.querySelector(".form");
+var transactions = [];
+var sign = "";
+form.addEventListener("submit", addTransaction);
+function updateTotalBalance() {
+  if (sign = "+") {
+    var totalAmount = transactions.reduce(function (total, oneTransaction) {
+      return total + oneTransaction.amount;
+    }, 0);
+    console.log(totalAmount);
+    totalBalance.innerHTML = totalAmount;
+    return totalAmount;
+  }
+}
+function createListTransaction() {
+  if (transactions.length === 0) {
+    noList.textContent = "You don`t have any transaction!";
+  }
+  var markup = transactions.map(function (_ref) {
+    var name = _ref.name,
+      sign = _ref.sign,
+      amount = _ref.amount;
+    return "<li class=\"list_item\"><span>".concat(name, "</span><span class=\"sign\">").concat(sign, "</span><span>").concat(amount, "</span></li>");
+  }).join("");
+  list.innerHTML = markup;
+}
+function addTransaction(evt) {
+  evt.preventDefault();
+  var nameInput = form.elements.name.value;
+  var amountInput = form.elements.number.value;
+  console.log(amountInput);
+  if (amountInput > 0) {
+    sign = "+";
+  }
+  transactions.push({
+    id: transactions.length + 1,
+    name: nameInput.trim(),
+    sign: sign,
+    amount: +amountInput
+  });
+  form.reset();
+  console.log(transactions);
+  createListTransaction();
+  updateTotalBalance();
+}
+console.log(transactions);
 },{}],"C:/Users/Admin/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -144,7 +194,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59643" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51265" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

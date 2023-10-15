@@ -7,7 +7,43 @@
     <title>Expense Tracker</title>
   <script src="/style.e308ff8e.js"></script></head>
   <body>
-    <div>hello</div>
+    <header>
+      <div class="header">
+        <h1 class="title">your balance</h1>
+        <p class="total_balance"></p>
+      </div>
+    </header>
+    <main>
+      <div>
+        <div>
+          <h2>income</h2>
+          <p class="income_balance"></p>
+        </div>
+        <div>
+          <h2>expense</h2>
+          <p class="expense_balance"></p>
+        </div>
+      </div>
+      <div>
+        <h2>History</h2>
+        <ul class="list_history"></ul>
+        <p class="no_list"></p>
+      </div>
+      <div>
+        <h2>Add new transaction</h2>
+        <form class="form">
+          <label>Text
+            <input type="text" name="name" placeholder="Enter text..." required="">
+          </label>
+          <label>Amount (negative - expense, positive - income)
+            <input type="number" name="number" placeholder="Enter amount..." required="">
+          </label>
+          <button type="submit">Add transaction</button>
+        </form>
+      </div>
+    </main>
+    <footer></footer>
+
     <script type="module" src="/JS_Expense_Tracker.e31bb0bc.js"></script>
   </body>
 </html>
