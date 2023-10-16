@@ -10,47 +10,52 @@
     <header>
       <div class="header">
         <h1 class="title">your balance</h1>
-        <p class="total_balance"></p>
+        <span class="span_total">$</span>
+        <span class="total_balance"></span>
       </div>
     </header>
     <main>
-      <div>
+      <div class="wrapper">
         <div>
-          <h2>income</h2>
-          <p class="income_balance"></p>
+          <h2 class="title_balance">income</h2>
+          <span class="span_income">$</span>
+          <span class="income_balance span_income"></span>
         </div>
         <div>
-          <h2>expense</h2>
-          <p class="expense_balance"></p>
+          <h2 class="title_balance">expense</h2>
+          <span class="span_expense">$</span>
+          <span class="expense_balance span_expense"></span>
         </div>
       </div>
-      <div>
+      <div class="wrap">
         <h2>History</h2>
         <ul class="list_history"></ul>
         <p class="no_list"></p>
       </div>
-      <div>
+      <div class="wrap">
         <h2>Add new transaction</h2>
         <form class="form">
-          <label
+          <label class="label"
             >Text
             <input
+              class="input"
               type="text"
               name="name"
               placeholder="Enter text..."
               required
             />
           </label>
-          <label
+          <label class="label"
             >Amount (negative - expense, positive - income)
             <input
+              class="input"
               type="number"
               name="number"
               placeholder="Enter amount..."
               required
             />
           </label>
-          <button type="submit">Add transaction</button>
+          <button class="btn" type="submit">Add transaction</button>
         </form>
       </div>
     </main>

@@ -5,20 +5,44 @@ const list = document.querySelector(".list_history");
 const noList = document.querySelector(".no_list");
 const form = document.querySelector(".form");
 
-const transactions = [];
-let sign = "";
+const formatter = new Intl.NumberFormat("en-US", {
+  signDisplay: "always",
+});
+
+const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+let total = 0;
+let type = "";
+
+console.log(transactions);
+createListTransaction();
+incomeTotal();
+expenseTotal();
+updateTotal();
 
 form.addEventListener("submit", addTransaction);
 
-function updateTotalBalance() {
-  if ((sign = "+")) {
-    const totalAmount = transactions.reduce((total, oneTransaction) => {
-      return total + oneTransaction.amount;
-    }, 0);
-    console.log(totalAmount);
-    totalBalance.innerHTML = totalAmount;
-    return totalAmount;
-  }
+function incomeTotal() {
+  const income = transactions
+    .filter((oneTransaction) => oneTransaction.type === "+income")
+    .reduce((total, oneTransaction) => +total + +oneTransaction.amount, 0);
+
+  incomeBalance.textContent = income.toFixed(2);
+
+  return income;
+}
+
+function expenseTotal() {
+  const expense = transactions
+    .filter((oneTransaction) => oneTransaction.type === "expense")
+    .reduce((total, oneTransaction) => +total + +oneTransaction.amount, 0);
+
+  expenseBalance.textContent = expense.toFixed(2);
+  return expense;
+}
+
+function updateTotal() {
+  total = incomeTotal() + expenseTotal();
+  totalBalance.textContent = total.toFixed(2);
 }
 
 function createListTransaction() {
@@ -26,8 +50,10 @@ function createListTransaction() {
     noList.textContent = "You don`t have any transaction!";
   }
   const markup = transactions
-    .map(({ name, sign, amount }) => {
-      return `<li class="list_item"><span>${name}</span><span class="sign">${sign}</span><span>${amount}</span></li>`;
+    .map(({ id, name, amount }) => {
+      return `<li class="list_item"><button id="btn_delete" class="btn_delete" onclick="deleteTransaction(${id})">delete</button><p class="item_text">${name}</p><p class="item_text">${formatter.format(
+        amount
+      )}</p></li>`;
     })
     .join("");
 
@@ -38,25 +64,40 @@ function addTransaction(evt) {
   evt.preventDefault();
 
   const nameInput = form.elements.name.value;
-  const amountInput = form.elements.number.value;
-  console.log(amountInput);
+  const amountInput = +form.elements.number.value;
 
   if (amountInput > 0) {
-    sign = "+";
+    type = "+income";
+  } else {
+    type = "expense";
   }
 
   transactions.push({
     id: transactions.length + 1,
     name: nameInput.trim(),
-    sign,
-    amount: +amountInput,
+    amount: amountInput.toFixed(2),
+    type,
   });
 
   form.reset();
-  console.log(transactions);
 
+  saveLocaleStorage();
+  updateTotal();
   createListTransaction();
-  updateTotalBalance();
 }
 
-console.log(transactions);
+function deleteTransaction(id) {
+  alert("delete");
+  const index = transactions.findIndex(
+    (oneTransaction) => oneTransaction.id === id
+  );
+  transactions.splice(index, 1);
+
+  updateTotal();
+  saveLocaleStorage();
+  createListTransaction();
+}
+
+function saveLocaleStorage() {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}

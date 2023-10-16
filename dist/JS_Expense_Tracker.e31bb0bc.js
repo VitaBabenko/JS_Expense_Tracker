@@ -124,51 +124,85 @@ var expenseBalance = document.querySelector(".expense_balance");
 var list = document.querySelector(".list_history");
 var noList = document.querySelector(".no_list");
 var form = document.querySelector(".form");
-var transactions = [];
-var sign = "";
+var formatter = new Intl.NumberFormat("en-US", {
+  signDisplay: "always"
+});
+var transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+var total = 0;
+var type = "";
+console.log(transactions);
+createListTransaction();
+incomeTotal();
+expenseTotal();
+updateTotal();
 form.addEventListener("submit", addTransaction);
-function updateTotalBalance() {
-  if (sign = "+") {
-    var totalAmount = transactions.reduce(function (total, oneTransaction) {
-      return total + oneTransaction.amount;
-    }, 0);
-    console.log(totalAmount);
-    totalBalance.innerHTML = totalAmount;
-    return totalAmount;
-  }
+function incomeTotal() {
+  var income = transactions.filter(function (oneTransaction) {
+    return oneTransaction.type === "+income";
+  }).reduce(function (total, oneTransaction) {
+    return +total + +oneTransaction.amount;
+  }, 0);
+  incomeBalance.textContent = income.toFixed(2);
+  return income;
+}
+function expenseTotal() {
+  var expense = transactions.filter(function (oneTransaction) {
+    return oneTransaction.type === "expense";
+  }).reduce(function (total, oneTransaction) {
+    return +total + +oneTransaction.amount;
+  }, 0);
+  expenseBalance.textContent = expense.toFixed(2);
+  return expense;
+}
+function updateTotal() {
+  total = incomeTotal() + expenseTotal();
+  totalBalance.textContent = total.toFixed(2);
 }
 function createListTransaction() {
   if (transactions.length === 0) {
     noList.textContent = "You don`t have any transaction!";
   }
   var markup = transactions.map(function (_ref) {
-    var name = _ref.name,
-      sign = _ref.sign,
+    var id = _ref.id,
+      name = _ref.name,
       amount = _ref.amount;
-    return "<li class=\"list_item\"><span>".concat(name, "</span><span class=\"sign\">").concat(sign, "</span><span>").concat(amount, "</span></li>");
+    return "<li class=\"list_item\"><button id=\"btn_delete\" class=\"btn_delete\" onclick=\"deleteTransaction(".concat(id, ")\">delete</button><p class=\"item_text\">").concat(name, "</p><p class=\"item_text\">").concat(formatter.format(amount), "</p></li>");
   }).join("");
   list.innerHTML = markup;
 }
 function addTransaction(evt) {
   evt.preventDefault();
   var nameInput = form.elements.name.value;
-  var amountInput = form.elements.number.value;
-  console.log(amountInput);
+  var amountInput = +form.elements.number.value;
   if (amountInput > 0) {
-    sign = "+";
+    type = "+income";
+  } else {
+    type = "expense";
   }
   transactions.push({
     id: transactions.length + 1,
     name: nameInput.trim(),
-    sign: sign,
-    amount: +amountInput
+    amount: amountInput.toFixed(2),
+    type: type
   });
   form.reset();
-  console.log(transactions);
+  saveLocaleStorage();
+  updateTotal();
   createListTransaction();
-  updateTotalBalance();
 }
-console.log(transactions);
+function deleteTransaction(id) {
+  alert("delete");
+  var index = transactions.findIndex(function (oneTransaction) {
+    return oneTransaction.id === id;
+  });
+  transactions.splice(index, 1);
+  updateTotal();
+  saveLocaleStorage();
+  createListTransaction();
+}
+function saveLocaleStorage() {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
 },{}],"C:/Users/Admin/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -194,7 +228,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51265" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57229" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
