@@ -130,7 +130,6 @@ var formatter = new Intl.NumberFormat("en-US", {
 var transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 var total = 0;
 var type = "";
-console.log(transactions);
 createListTransaction();
 incomeTotal();
 expenseTotal();
@@ -228,7 +227,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57229" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58586" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

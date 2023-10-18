@@ -13,7 +13,6 @@ const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 let total = 0;
 let type = "";
 
-console.log(transactions);
 createListTransaction();
 incomeTotal();
 expenseTotal();
@@ -37,6 +36,7 @@ function expenseTotal() {
     .reduce((total, oneTransaction) => +total + +oneTransaction.amount, 0);
 
   expenseBalance.textContent = expense.toFixed(2);
+
   return expense;
 }
 
