@@ -165,7 +165,7 @@ function createListTransaction() {
     var id = _ref.id,
       name = _ref.name,
       amount = _ref.amount;
-    return "<li class=\"list_item\"><button id=\"btn_delete\" class=\"btn_delete\" onclick=\"deleteTransaction(".concat(id, ")\">delete</button><p class=\"item_text\">").concat(name, "</p><p class=\"item_text\">").concat(formatter.format(amount), "</p></li>");
+    return "<li class=\"list_item\"><p class=\"item_text\">".concat(name, "</p><p class=\"item_text\">").concat(formatter.format(amount), "</p></li>");
   }).join("");
   list.innerHTML = markup;
 }
@@ -189,16 +189,19 @@ function addTransaction(evt) {
   updateTotal();
   createListTransaction();
 }
-function deleteTransaction(id) {
-  alert("delete");
-  var index = transactions.findIndex(function (oneTransaction) {
-    return oneTransaction.id === id;
-  });
-  transactions.splice(index, 1);
-  updateTotal();
-  saveLocaleStorage();
-  createListTransaction();
-}
+
+// function deleteTransaction(id) {
+//   alert("delete");
+//   const index = transactions.findIndex(
+//     (oneTransaction) => oneTransaction.id === id
+//   );
+//   transactions.splice(index, 1);
+
+//   updateTotal();
+//   saveLocaleStorage();
+//   createListTransaction();
+// }
+
 function saveLocaleStorage() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
@@ -227,7 +230,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58586" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65151" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

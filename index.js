@@ -51,7 +51,7 @@ function createListTransaction() {
   }
   const markup = transactions
     .map(({ id, name, amount }) => {
-      return `<li class="list_item"><button id="btn_delete" class="btn_delete" onclick="deleteTransaction(${id})">delete</button><p class="item_text">${name}</p><p class="item_text">${formatter.format(
+      return `<li class="list_item"><p class="item_text">${name}</p><p class="item_text">${formatter.format(
         amount
       )}</p></li>`;
     })
@@ -83,18 +83,6 @@ function addTransaction(evt) {
 
   saveLocaleStorage();
   updateTotal();
-  createListTransaction();
-}
-
-function deleteTransaction(id) {
-  alert("delete");
-  const index = transactions.findIndex(
-    (oneTransaction) => oneTransaction.id === id
-  );
-  transactions.splice(index, 1);
-
-  updateTotal();
-  saveLocaleStorage();
   createListTransaction();
 }
 
